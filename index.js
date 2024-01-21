@@ -6,6 +6,8 @@ const mustacheExpress = require('mustache-express');
 const coursesRouter=require("./controllers/courses.controller");
 const lessonsRouter=require("./controllers/lessons.controller");
 const usersRouter=require("./controllers/users.controller");
+const commentsRouter=require("./controllers/comments.controller");
+const reviewsRouter=require("./controllers/reviews.controller");
 
 const PORT = 3001;
 const key = fs.readFileSync('ssl/key.pem');
@@ -21,6 +23,8 @@ const server = https.createServer({key: key, cert: cert }, app);
 // app.use("/courses", coursesRouter);
 // app.use("/users", usersRouter);
 // app.use("/lessons", lessonsRouter);
+// app.use("/lessons", commentsRouter);
+// app.use("/lessons", reviewsRouter);
 
 app.get('/detail', function (request, response) {
     response.render('course-detail');
