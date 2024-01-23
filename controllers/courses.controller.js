@@ -1,28 +1,42 @@
-const coursesRouter = require('express').Router();
+import express from "express";
+import {create, getAll, findById, updateCourse, deleteCourse, findByAuthorId} from "../services/courses.service.js";
+const coursesRouter = express.Router();
 
-coursesRouter.post("/", (req, res) => {
-    const {author, title, description, authorId} = req.body;
-    res.status(201).send("Курс успешно создан");
+coursesRouter.post("/", async (req, res) => {
+    const answer = await create(req.body);
+    if (typeof answer === "string") {
+        res.status(400).json({message: answer});
+
+    } else {
+        res.status(201).json(answer);
+    }
 });
 
-coursesRouter.get("/", (req, res) => {
-    res.status(200).send("Успешный запрос");
+coursesRouter.get("/", async (req, res) => {
+    const answer = await getAll();
+    res.status(200).send(answer);
 });
 
-coursesRouter.get("/:id", (req, res) => {
+coursesRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Успешный запрос");
+    const answer = await findById(id);
+    res.status(200).send(answer);
 });
 
-coursesRouter.patch("/", (req, res) => {
-    const {id, title, description} = req.body;
-    res.status(201).send("Данные курса успешно изменены");
-});
-
-
-coursesRouter.delete("/:id", (req, res) => {
+coursesRouter.get("/author/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Курс успешно удален");
+    const answer = await findByAuthorId(id);
+    res.status(200).send(answer);
 });
 
-module.exports=coursesRouter;
+coursesRouter.patch("/", async (req, res) => {
+    const answer = await updateCourse(req.params.id,req.body);
+    res.status(200).send(answer);
+});
+
+coursesRouter.delete("/:id", async (req, res) => {
+    const answer = await deleteCourse(req.params.id);
+    res.status(200).send(answer);
+});
+
+export default coursesRouter;
