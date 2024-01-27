@@ -15,12 +15,7 @@
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-<!-- PRE LOADER -->
-<section class="preloader">
-    <div class="spinner">
-        <span class="spinner-rotate"></span>
-    </div>
-</section>
+{{> preloader}}
 
 <!-- MENU -->
 <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
@@ -58,174 +53,49 @@
     <h1 class="courses-page-title">Наши курсы</h1>
 
     <div class="courses-page-wrapper">
-        <div class="col-md-4 col-sm-4">
-            <div class="item">
-                <div class="courses-thumb">
-                    <div class="courses-top">
-                        <a href="/detail" class="course-item-link">
-                            <div class="courses-image">
-                                <img src="/images/course-image.jpg" class="img-responsive" alt="">
+        {{#list}}
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="item">
+                    <div class="courses-thumb">
+                        <div class="courses-top">
+                            <a href="/courses/{{_id}}" class="course-item-link">
+                                <div class="courses-image">
+                                    <img src="/images/course-image.jpg" class="img-responsive" alt="">
+                                </div>
+                            </a>
+                            <div class="courses-date">
+                                <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
+                                <span><i class="fa fa-clock-o"></i> 7 Hours</span>
                             </div>
-                        </a>
-                        <div class="courses-date">
-                            <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
-                            <span><i class="fa fa-clock-o"></i> 7 Hours</span>
                         </div>
-                    </div>
 
-                    <div class="courses-detail">
-                        <h3><a href="/detail">Social Media Management</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="courses-info">
-                        <div class="courses-author">
-                            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-                            <span>Mark Wilson</span>
+                        <div class="courses-detail">
+                            <h3><a href="/courses/{{_id}}">{{title}}</a></h3>
+                            <p>{{description}}</p>
                         </div>
-                        <div class="courses-price">
-                            <a href="/detail"><span>USD 25</span></a>
+
+                        <div class="courses-info">
+                            <div class="courses-author">
+                                <img src="/images/avatar.jpg" class="img-responsive" alt="">
+                                <span>{{authorFirstName}} {{authorLastName}}</span>
+                            </div>
+                            {{#price}}
+                                <div class="courses-price">
+                                    <a href="/courses/{{_id}}"><span>USD {{price}}</span></a>
+                                </div>
+                            {{/price}}
+                            {{^price}}
+                                <div class="courses-price free">
+                                    <a href="/courses/{{_id}}"><span>Free</span></a>
+                                </div>
+                            {{/price}}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-            <div class="item">
-                <div class="courses-thumb">
-                    <div class="courses-top">
-                        <a href="/detail" class="course-item-link">
-                            <div class="courses-image">
-                                <img src="/images/course-image.jpg" class="img-responsive" alt="">
-                            </div>
-                        </a>
-                        <div class="courses-date">
-                            <span><i class="fa fa-calendar"></i> 20 / 7 / 2018</span>
-                            <span><i class="fa fa-clock-o"></i> 4.5 Hours</span>
-                        </div>
-                    </div>
-
-                    <div class="courses-detail">
-                        <h3><a href="/detail">Graphic & Web Design</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="courses-info">
-                        <div class="courses-author">
-                            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-                            <span>Jessica</span>
-                        </div>
-                        <div class="courses-price">
-                            <a href="/detail"><span>USD 80</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-            <div class="item">
-                <div class="courses-thumb">
-                    <div class="courses-top">
-                        <a href="/detail" class="course-item-link">
-                            <div class="courses-image">
-                                <img src="/images/course-image.jpg" class="img-responsive" alt="">
-                            </div>
-                        </a>
-                        <div class="courses-date">
-                            <span><i class="fa fa-calendar"></i> 15 / 8 / 2018</span>
-                            <span><i class="fa fa-clock-o"></i> 6 Hours</span>
-                        </div>
-                    </div>
-
-                    <div class="courses-detail">
-                        <h3><a href="/detail">Marketing Communication</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="courses-info">
-                        <div class="courses-author">
-                            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-                            <span>Catherine</span>
-                        </div>
-                        <div class="courses-price free">
-                            <a href="/detail"><span>Free</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-            <div class="item">
-                <div class="courses-thumb">
-                    <div class="courses-top">
-                        <a href="/detail" class="course-item-link">
-                            <div class="courses-image">
-                                <img src="/images/course-image.jpg" class="img-responsive" alt="">
-                            </div>
-                        </a>
-                        <div class="courses-date">
-                            <span><i class="fa fa-calendar"></i> 10 / 8 / 2018</span>
-                            <span><i class="fa fa-clock-o"></i> 8 Hours</span>
-                        </div>
-                    </div>
-
-                    <div class="courses-detail">
-                        <h3><a href="/detail">Summer Kids</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="courses-info">
-                        <div class="courses-author">
-                            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-                            <span>Mark Wilson</span>
-                        </div>
-                        <div class="courses-price">
-                            <a href="/detail"><span>USD 45</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4">
-            <div class="item">
-                <div class="courses-thumb">
-                    <div class="courses-top">
-                        <a href="/detail" class="course-item-link">
-                            <div class="courses-image">
-                                <img src="/images/course-image.jpg" class="img-responsive" alt="">
-                            </div>
-                        </a>
-                        <div class="courses-date">
-                            <span><i class="fa fa-calendar"></i> 5 / 10 / 2018</span>
-                            <span><i class="fa fa-clock-o"></i> 10 Hours</span>
-                        </div>
-                    </div>
-
-                    <div class="courses-detail">
-                        <h3><a href="/detail">Business &amp; Management</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    </div>
-
-                    <div class="courses-info">
-                        <div class="courses-author">
-                            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-                            <span>Jessica</span>
-                        </div>
-                        <div class="courses-price free">
-                            <a href="/detail"><span>Free</span></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        {{/list}}
+    </div>
 </div>
-</div>
-
 
 
 <!-- SCRIPTS -->

@@ -1,4 +1,4 @@
-import {coursesCollection, usersCollection, lessonsCollection} from "../index.js";
+import {coursesCollection, usersCollection, lessonsCollection,commentsCollection} from "../index.js";
 import {ObjectId} from "mongodb";
 
 
@@ -24,28 +24,21 @@ export const create = async (body) => {
     return newLesson;
 };
 
-export const getAll = async () => {
-    return await lessonsCollection.find().toArray();
-};
+export const getCommentsGroupByLesson = async (id) => {
+    const results=await commentsCollection.aggregate([
+        { $match:{courseId:id}},
+        { $group:
+                { _id:'$lessonId',
+                    amount: { $sum:1 },
+                    info: {
+                        $push: {
+                            title:"$title",
+                            message: "$message"
+                        }
+                    }
+                }
+        }
 
-export const findById = async (id) => {
-    return await lessonsCollection.findOne({_id: new ObjectId(id)});
+    ]).toArray();
+    return results;
 };
-
-export const findByAuthorId = async (id) => {
-    return  await lessonsCollection.find({authorId:id}).toArray();
-};
-
-export const findByCourseId = async (id) => {
-    return  await lessonsCollection.find({courseId:id}).toArray();
-};
-
-export const updateLesson = async (id,data) => {
-    const lesson=await lessonsCollection.findOne({_id: new ObjectId(id)});
-    return  await lessonsCollection.findOneAndUpdate({_id: new ObjectId(id)}, { $set: {...lesson,...data}});
-};
-
-export const deleteLesson = async (id) => {
-    return await lessonsCollection.deleteOne({_id: new ObjectId(id)});
-};
-

@@ -1,5 +1,8 @@
 import express from "express";
-import {create, getAll, findById,updateUser,deleteUser} from "../services/users.service.js";
+import {create} from "../services/users.service.js";
+import {usersCollection} from "../index.js";
+import {getAll,findById,updateOne,deleteOne} from "../handlers/servicesHandlers.js";
+
 const usersRouter = express.Router();
 
 usersRouter.post("/", async(req, res) => {
@@ -13,24 +16,24 @@ usersRouter.post("/", async(req, res) => {
 });
 
 usersRouter.get("/", async (req, res) => {
-    const answer = await getAll();
+    const answer=await getAll(usersCollection);
     res.status(200).send(answer);
 });
 
 usersRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    const answer = await findById(id);
+    const answer = await findById(id,usersCollection);
     res.status(200).send(answer);
 });
 
 usersRouter.patch("/:id", async (req, res) => {
-    const answer = await updateUser(req.params.id,req.body);
+    const answer = await updateOne(req.params.id,req.body,usersCollection);
     res.status(200).send(answer);
 });
 
 
 usersRouter.delete("/:id", async (req, res) => {
-    const answer = await deleteUser(req.params.id);
+    const answer = await deleteOne(req.params.id);
     res.status(200).send(answer);
 });
 

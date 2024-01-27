@@ -1,5 +1,16 @@
 import express from "express";
-import {create, getAll, findById, updateLesson, deleteLesson, findByCourseId, findByAuthorId} from "../services/lessons.service.js";
+import {create, getCommentsGroupByLesson} from "../services/lessons.service.js";
+import {lessonsCollection, commentsCollection} from "../index.js";
+import {
+    getAll,
+    findById,
+    updateOne,
+    deleteOne,
+    findByAuthorId,
+    findByCourseId,
+    getLinkOfCollections
+} from "../handlers/servicesHandlers.js";
+
 const lessonsRouter = express.Router();
 
 lessonsRouter.post("/", async (req, res) => {
@@ -13,35 +24,37 @@ lessonsRouter.post("/", async (req, res) => {
 });
 
 lessonsRouter.get("/", async (req, res) => {
-    const answer = await getAll();
+    const answer = await getAll(lessonsCollection);
     res.status(200).send(answer);
 });
 
 lessonsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    const answer = await findById(id);
+    const answer = await findById(id, lessonsCollection);
     res.status(200).send(answer);
 });
 
 lessonsRouter.get("/author/:id", async (req, res) => {
     const {id} = req.params;
-    const answer = await findByAuthorId(id);
+    const answer = await findByAuthorId(id, lessonsCollection);
     res.status(200).send(answer);
 });
 
 lessonsRouter.get("/course/:id", async (req, res) => {
     const {id} = req.params;
-    const answer = await findByCourseId(id);
-    res.status(200).send(answer);
+    const initialLessons = await findByCourseId(id, lessonsCollection);
+    const comments = await getCommentsGroupByLesson(id);
+    const lessons = getLinkOfCollections(initialLessons, comments);
+    res.status(200).render("lessons-page", {courseId:id,lessons});
 });
 
 lessonsRouter.patch("/", async (req, res) => {
-    const answer = await updateCourse(req.params.id,req.body);
+    const answer = await updateOne(req.params.id, req.body, lessonsCollection);
     res.status(200).send(answer);
 });
 
 lessonsRouter.delete("/:id", async (req, res) => {
-    const answer = await deleteCourse(req.params.id);
+    const answer = await deleteOne(req.params.id, lessonsCollection);
     res.status(200).send(answer);
 });
 

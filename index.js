@@ -11,8 +11,8 @@ import { getGlobals } from 'common-es'
 import coursesRouter from "./controllers/courses.controller.js";
 import lessonsRouter from "./controllers/lessons.controller.js";
 import usersRouter from "./controllers/users.controller.js";
-// import commentsRouter from "./controllers/comments.controller";
-// import reviewsRouter from "./controllers/reviews.controller";
+import commentsRouter from "./controllers/comments.controller.js";
+import reviewsRouter from "./controllers/reviews.controller.js";
 
 dotenv.config();
 const { __dirname, __filename } = getGlobals(import.meta.url);
@@ -30,14 +30,8 @@ app.engine('mustache', mustacheExpress());
 app.use("/courses", coursesRouter);
 app.use("/users", usersRouter);
 app.use("/lessons", lessonsRouter);
-// app.use("/comments", commentsRouter);
-// app.use("/reviews", reviewsRouter);
-app.get('/detail', function (request, response) {
-    response.render('course-detail');
-});
-app.get('/courses', function (request, response) {
-    response.render('courses-page');
-});
+app.use("/comments", commentsRouter);
+app.use("/reviews", reviewsRouter);
 app.get('/', function (request, response) {
     response.render('index');
 });
@@ -50,10 +44,12 @@ const db = mongoClient.db("courses");
 export const usersCollection = db.collection("users");
 export const coursesCollection = db.collection("courses");
 export const lessonsCollection = db.collection("lessons");
+export const commentsCollection = db.collection("comments");
+export const reviewsCollection = db.collection("reviews");
 export const server = https.createServer({key: key, cert: cert }, app);
 
 const start = async () => {
-        try {;
+        try {
             await mongoClient.connect();
             server.listen(process.env.SERVER_PORT, () => { console.log(`Server is listening on ${process.env.SERVER_PORT}`) });
         } catch

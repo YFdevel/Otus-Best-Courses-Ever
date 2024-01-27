@@ -1,28 +1,45 @@
-const reviewsRouter = require('express').Router();
+import express from "express";
+import {create} from "../services/reviews.service.js";
+import {reviewsCollection} from "../index.js";
+import {getAll,findById,updateOne,deleteOne, findByAuthorId,findByCourseId} from "../handlers/servicesHandlers.js";
+const reviewsRouter = express.Router();
 
-reviewsRouter.post("/", (req, res) => {
-    const {title, message, authorId, courseId} = req.body;
-    res.status(201).send("Комментарий успешно создан");
+reviewsRouter.post("/", async (req, res) => {
+    const answer = await create(req.body);
+    res.status(201).json(answer);
 });
 
-reviewsRouter.get("/", (req, res) => {
-    res.status(200).send("Успешный запрос");
+reviewsRouter.get("/", async (req, res) => {
+    const answer = await getAll(reviewsCollection);
+    res.status(200).send(answer);
 });
 
-reviewsRouter.get("/:id", (req, res) => {
+reviewsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Успешный запрос");
+    const answer = await findById(id,reviewsCollection);
+    res.status(200).send(answer);
 });
 
-reviewsRouter.patch("/", (req, res) => {
-    const {id, title, message} = req.body;
-    res.status(201).send("Данные комментария успешно изменены");
-});
-
-
-reviewsRouter.delete("/:id", (req, res) => {
+reviewsRouter.get("/author/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Комментарий успешно удален");
+    const answer = await findByAuthorId(id,reviewsCollection);
+    res.status(200).send(answer);
 });
 
-module.exports=reviewsRouter;
+reviewsRouter.get("/course/:id", async (req, res) => {
+    const {id} = req.params;
+    const answer = await findByCourseId(id,reviewsCollection);
+    res.status(200).send(answer);
+});
+
+reviewsRouter.patch("/", async (req, res) => {
+    const answer = await updateOne(req.params.id,req.body,reviewsCollection);
+    res.status(200).send(answer);
+});
+
+reviewsRouter.delete("/:id", async (req, res) => {
+    const answer = await deleteOne(req.params.id,reviewsCollection);
+    res.status(200).send(answer);
+});
+
+export default reviewsRouter;

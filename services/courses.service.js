@@ -1,10 +1,12 @@
-import {coursesCollection, usersCollection} from "../index.js";
+import {coursesCollection,usersCollection} from "../index.js";
+import {findById} from "../handlers/servicesHandlers.js";
 import {ObjectId} from "mongodb";
 
 
 export const create = async (body) => {
-    const {title, description, authorId} = body;
+    const {title, description, price, duration, authorId} = body;
     const course = await coursesCollection.findOne({title});
+    const author = await findById(authorId,usersCollection);
     if (course) {
         return "Курс с таким названием уже зарегистрирован";
     }
@@ -12,8 +14,10 @@ export const create = async (body) => {
         title,
         description,
         authorId,
-        duration: null,
-        price: null,
+        authorFirstName:`${author.firstName}`,
+        authorLastName:`${author.lastName}`,
+        duration,
+        price,
         startedAt: new Date(),
         updatedAt: new Date(),
         lessons: [],
@@ -23,24 +27,4 @@ export const create = async (body) => {
     return newCourse;
 };
 
-export const getAll = async () => {
-    return await coursesCollection.find().toArray();
-};
-
-export const findById = async (id) => {
-    return await coursesCollection.findOne({_id: new ObjectId(id)});
-};
-
-export const findByAuthorId = async (id) => {
-    return  await coursesCollection.find({authorId:id}).toArray();
-};
-
-export const updateCourse = async (id,data) => {
-    const course=await coursesCollection.findOne({_id: new ObjectId(id)});
-    return  await coursesCollection.findOneAndUpdate({_id: new ObjectId(id)}, { $set: {...course,...data}});
-};
-
-export const deleteCourse = async (id) => {
-    return await coursesCollection.deleteOne({_id: new ObjectId(id)});
-};
 

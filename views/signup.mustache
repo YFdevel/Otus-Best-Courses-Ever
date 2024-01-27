@@ -1,12 +1,11 @@
-<form action="#" method="post" class="auth-form-up">
+<form action="https://localhost:3001/users" method="post" class="auth-form-up">
     <h2>Зарегистрироваться</h2>
-    <input type="text" name="full name" class="form-control" placeholder="ФИО" required="">
-
+    <input type="text" name="firstName" class="form-control" placeholder="Имя" required="">
+    <input type="text" name="lastName" class="form-control" placeholder="Фамилия" required="">
     <input type="email" name="email" class="form-control" placeholder="Email" required="">
-
     <input type="password" name="password" class="form-control" placeholder="Пароль" required="">
 
-    <button class="submit-btn form-control" id="form-submit">Начнем</button>
+    <button type="submit" class="submit-btn form-control" id="form-submit">Начнем</button>
     <button type="button" class="form-link-up">Войти, если уже зарегистрированы</button>
 </form>
 <form action="#" method="post" class="auth-form-in">
@@ -16,6 +15,6 @@
 
     <input type="password" name="password" class="form-control" placeholder="Пароль" required="">
 
-    <button class="submit-btn form-control" id="form-submit">Вперед</button>
+    <button type="submit" class="submit-btn form-control" id="form-submit">Вперед</button>
     <button type="button" class="form-link-in">Еще не зарегистрированы?</button>
 </form>
