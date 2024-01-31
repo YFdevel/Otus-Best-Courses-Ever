@@ -1,28 +1,40 @@
-const usersRouter = require('express').Router();
+import express from "express";
+import {create} from "../services/users.service.js";
+import {usersCollection} from "../index.js";
+import {getAll,findById,updateOne,deleteOne} from "../handlers/servicesHandlers.js";
 
-usersRouter.post("/", (req, res) => {
-    const {firstName, lastName, email, password} = req.body;
-    res.status(201).send("Пользователь успешно создан");
+const usersRouter = express.Router();
+
+usersRouter.post("/", async(req, res) => {
+    const answer = await create(req.body);
+    if (typeof answer === "string") {
+        res.status(400).json({message: answer});
+
+    } else {
+        res.status(201).json(answer);
+    }
 });
 
-usersRouter.get("/", (req, res) => {
-    res.status(200).send("Успешный запрос");
+usersRouter.get("/", async (req, res) => {
+    const answer=await getAll(usersCollection);
+    res.status(200).send(answer);
 });
 
-usersRouter.get("/:id", (req, res) => {
+usersRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Успешный запрос");
+    const answer = await findById(id,usersCollection);
+    res.status(200).send(answer);
 });
 
-usersRouter.patch("/", (req, res) => {
-    const {id,firstName, lastName, email, password} = req.body;
-    res.status(201).send("Данные пользователя успешно изменены");
+usersRouter.patch("/:id", async (req, res) => {
+    const answer = await updateOne(req.params.id,req.body,usersCollection);
+    res.status(200).send(answer);
 });
 
 
-usersRouter.delete("/:id", (req, res) => {
-    const {id} = req.params;
-    res.status(200).send("Пользователь успешно удален");
+usersRouter.delete("/:id", async (req, res) => {
+    const answer = await deleteOne(req.params.id);
+    res.status(200).send(answer);
 });
 
-module.exports=usersRouter;
+export default usersRouter;

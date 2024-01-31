@@ -1,28 +1,61 @@
-const lessonsRouter = require('express').Router();
+import express from "express";
+import {create, getCommentsGroupByLesson} from "../services/lessons.service.js";
+import {lessonsCollection, commentsCollection} from "../index.js";
+import {
+    getAll,
+    findById,
+    updateOne,
+    deleteOne,
+    findByAuthorId,
+    findByCourseId,
+    getLinkOfCollections
+} from "../handlers/servicesHandlers.js";
 
-lessonsRouter.post("/", (req, res) => {
-    const {title, description, videoUrl, courseId} = req.body;
-    res.status(201).send("Урок успешно создан");
+const lessonsRouter = express.Router();
+
+lessonsRouter.post("/", async (req, res) => {
+    const answer = await create(req.body);
+    if (typeof answer === "string") {
+        res.status(400).json({message: answer});
+
+    } else {
+        res.status(201).json(answer);
+    }
 });
 
-lessonsRouter.get("/", (req, res) => {
-    res.status(200).send("Успешный запрос");
+lessonsRouter.get("/", async (req, res) => {
+    const answer = await getAll(lessonsCollection);
+    res.status(200).send(answer);
 });
 
-lessonsRouter.get("/:id", (req, res) => {
+lessonsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Успешный запрос");
+    const answer = await findById(id, lessonsCollection);
+    res.status(200).send(answer);
 });
 
-lessonsRouter.patch("/", (req, res) => {
-    const {id, title, description, videoUrl} = req.body;
-    res.status(201).send("Данные урока успешно изменены");
-});
-
-
-lessonsRouter.delete("/:id", (req, res) => {
+lessonsRouter.get("/author/:id", async (req, res) => {
     const {id} = req.params;
-    res.status(200).send("Урок успешно удален");
+    const answer = await findByAuthorId(id, lessonsCollection);
+    res.status(200).send(answer);
 });
 
-module.exports=lessonsRouter;
+lessonsRouter.get("/course/:id", async (req, res) => {
+    const {id} = req.params;
+    const initialLessons = await findByCourseId(id, lessonsCollection);
+    const comments = await getCommentsGroupByLesson(id);
+    const lessons = getLinkOfCollections(initialLessons, comments);
+    res.status(200).render("lessons-page", {courseId:id,lessons});
+});
+
+lessonsRouter.patch("/", async (req, res) => {
+    const answer = await updateOne(req.params.id, req.body, lessonsCollection);
+    res.status(200).send(answer);
+});
+
+lessonsRouter.delete("/:id", async (req, res) => {
+    const answer = await deleteOne(req.params.id, lessonsCollection);
+    res.status(200).send(answer);
+});
+
+export default lessonsRouter;
