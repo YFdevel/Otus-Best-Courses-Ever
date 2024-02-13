@@ -42,12 +42,13 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-phone"></i> +77777777</a></li>
+                <li><a href="/users/logout"><i class="fa fa-sign-out log-out-btn"></i></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<div class="container">
+<div class="container course-detail-wrapper">
 
     <h1 class="courses-title-detail">{{title}}</h1>
     <p class="courses-desc-detail">{{description}}</p>
@@ -58,7 +59,7 @@
         </div>
         {{#price}}
             <div class="courses-price">
-                <a href="/courses/{{_id}}"><span>USD {{price}}</span></a>
+               <span>USD {{price}}</span>
             </div>
         {{/price}}
         {{^price}}
@@ -84,7 +85,7 @@
         <div class="col-12">
             <div class="item">
                 <div class="lessons-link">
-                    <a href="/lessons/course/{{_id}}" class="section-btn btn btn-default courses-btn form-control" id="lessons-btn">Смотреть все уроки</a>
+                    <a href="/lessons/course/{{_id}}" data-id="{{_id}}" class="section-btn btn btn-default courses-btn form-control" id="lessons-btn">Смотреть все уроки</a>
                 </div>
             </div>
         </div>
@@ -92,17 +93,19 @@
     </div>
 </div>
 
+{{> footer }}
 
 
 
 
 <!-- SCRIPTS -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/script.js"></script>
-
+<script src="/js/axios.min.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/smoothscroll.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/check-cookie.js"></script>
 </body>
 </html>

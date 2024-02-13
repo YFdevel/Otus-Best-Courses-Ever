@@ -13,6 +13,9 @@ body {
     font-family: 'Nunito', sans-serif;
     overflow-x: hidden;
     padding-top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 
@@ -607,6 +610,14 @@ section {
     background: #3f51b5;
 }
 
+#courses-page-wrapper{
+    min-height: auto;
+    padding-top:  120px;
+}
+
+.course-detail-wrapper{
+    margin-bottom: 100px;
+}
 
 /*---------------------------------------
    NEWS
@@ -751,7 +762,8 @@ section {
 
 footer {
     background: #252020;
-    padding: 120px 0;
+    padding: 60px 0;
+    margin-top: auto;
 }
 
 footer .section-title {
@@ -1076,7 +1088,6 @@ footer .social-icon {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-
 }
 
 
@@ -1220,4 +1231,22 @@ footer .social-icon {
     }
 }
 
+#loom-companion-mv3{
+    display: none;
+}
+
+#lessons-page-wrapper{
+    flex-grow: 1;
+}
+
+.lessons-empty{
+    min-height: 50vh;
+    padding-top: 40px;
+    margin-bottom: auto;
+    font-size: 20px;
+}
+
+.log-out-btn{
+    visibility: hidden;
+}
 

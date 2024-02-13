@@ -32,16 +32,31 @@ function hideComments(element) {
 }
 
 const getComments = async(id) => {
-    const res=await axios(
-        {
-            method: "get",
-            url: `/comments/lesson/${id}`,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }});
-    console.log(res.data)
-        return await res.data;
+    try {
+        const res = await axios(
+            {
+                method: "get",
+                url: `/comments/lesson/${id}`,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+        console.log(res.data)
+    }catch (err) {
+        if (err.response) {
+            console.log(err.response.status);
+            console.log(err.response.statusText);
+            console.log(err.message);
+            console.log(err.response.headers); // 👉️ {... response headers here}
+            console.log(err.response.data); // 👉️ {... response data here}
+        } else if (error.request) {
+            // 👇️ Request was made, but no response was received
+            console.log(error.request);
+        } else {
+            console.log(error.message);
+        }
+    }
 };
 
 

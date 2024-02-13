@@ -43,20 +43,22 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-phone"></i> +77777777</a></li>
+                <li><a href="/users/logout"><i class="fa fa-sign-out log-out-btn"></i></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<div class="container">
+<div class="container courses-page">
 
     <h1 class="courses-page-title">Наши курсы</h1>
 
-    <div class="courses-page-wrapper">
+    <section class="courses-page-wrapper row" id="courses-page-wrapper">
         {{#list}}
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="item">
                     <div class="courses-thumb">
+
                         <div class="courses-top">
                             <a href="/courses/{{_id}}" class="course-item-link">
                                 <div class="courses-image">
@@ -90,21 +92,26 @@
                                 </div>
                             {{/price}}
                         </div>
+
                     </div>
                 </div>
             </div>
         {{/list}}
-    </div>
+    </section>
+
 </div>
 
 
-<!-- SCRIPTS -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/script.js"></script>
+{{> footer }}
 
+
+<!-- SCRIPTS -->
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/smoothscroll.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/check-cookie.js"></script>
 </body>
 </html>

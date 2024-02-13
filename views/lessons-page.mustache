@@ -40,12 +40,13 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-phone"></i> +77777777</a></li>
+                <li><a href="/users/logout"><i class="fa fa-sign-out log-out-btn"></i></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<div class="container">
+<div class="container" id="lessons-page-wrapper">
 
     <section id="main-body-container">
 
@@ -110,7 +111,7 @@
         {{/lessons.length}}
 
         {{^lessons.length}}
-            <p>Список доступных уроков пуст</p>
+            <p class="lessons-empty">Список доступных уроков пуст</p>
         {{/lessons.length}}
     </aside>
 
@@ -125,6 +126,8 @@
 
 </div>
 
+{{> footer }}
+
 
 <!-- SCRIPTS -->
 <script src="/js/axios.min.js"></script>
@@ -134,6 +137,6 @@
 <script src="/js/custom.js"></script>
 <script src="/js/script.js"></script>
 <script src="/js/lessons.js"></script>
-
+<script src="/js/check-cookie.js"></script>
 </body>
 </html>

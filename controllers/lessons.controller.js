@@ -1,6 +1,7 @@
 import express from "express";
 import {create, getCommentsGroupByLesson} from "../services/lessons.service.js";
 import {lessonsCollection, commentsCollection} from "../index.js";
+import {strategy, auth} from "../config/strategy.js";
 import {
     getAll,
     findById,
@@ -10,6 +11,7 @@ import {
     findByCourseId,
     getLinkOfCollections
 } from "../handlers/servicesHandlers.js";
+import {checkAuth} from "../handlers/checkAccess.js";
 
 const lessonsRouter = express.Router();
 
@@ -40,7 +42,7 @@ lessonsRouter.get("/author/:id", async (req, res) => {
     res.status(200).send(answer);
 });
 
-lessonsRouter.get("/course/:id", async (req, res) => {
+lessonsRouter.get("/course/:id", checkAuth, async (req, res) => {
     const {id} = req.params;
     const initialLessons = await findByCourseId(id, lessonsCollection);
     const comments = await getCommentsGroupByLesson(id);
