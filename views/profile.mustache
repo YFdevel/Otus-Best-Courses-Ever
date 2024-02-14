@@ -35,69 +35,80 @@
                 <li><a href="/#top" class="smoothScroll">Главная</a></li>
                 <li><a href="/#about" class="smoothScroll">О нас</a></li>
                 <li><a href="/#team" class="smoothScroll">Наши авторы</a></li>
-                <li><a href="/courses" class="smoothScroll">Курсы</a></li>
+                <li><a href="/#courses" class="smoothScroll">Курсы</a></li>
                 <li><a href="/#testimonial" class="smoothScroll">Отзывы</a></li>
                 <li><a href="/#contact" class="smoothScroll">Контакты</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-phone"></i> +77777777</a></li>
-                <li class="user-profile-btn" id="user-profile-btn"><a href="/users/profile"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                 <li class="log-out-btn" id="log-out-btn"><a href="/users/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<div class="container course-detail-wrapper">
+<section id="profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <form id="profile-form" role="form" action="" method="post">
+                    <div class="section-title">
+                        <h1 class="profile-title-detail">Привет, автор</h1>
+                    </div>
 
-    <h1 class="courses-title-detail">{{title}}</h1>
-    <p class="courses-desc-detail">{{description}}</p>
-    <div class="courses-info-detail">
-        <div class="courses-author">
-            <img src="/images/avatar.jpg" class="img-responsive" alt="">
-            <span>{{authorFirstName}} {{authorLastName}}</span>
-        </div>
-        {{#price}}
-            <div class="courses-price">
-               <span>USD {{price}}</span>
-            </div>
-        {{/price}}
-        {{^price}}
-            <div class="courses-price free">
-                <a href="/courses/{{_id}}"><span>Free</span></a>
-            </div>
-        {{/price}}
-    </div>
-    <div class="courses-date-detail">
-        <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
-        <span><i class="fa fa-clock-o"></i> {{duration}} Hours</span>
-    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <input type="number" class="form-control" min="18" max="90" placeholder="Возраст" name="age" required="">
 
-    <div class="courses-page-detail-wrapper">
-        <div class="col-12">
-            <div class="item">
-                <div class="courses-image">
-                    <img src="/images/course-image.jpg" class="img-responsive" alt="">
+                        <input type="password" class="form-control" placeholder="Пароль" name="password" required="">
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <input type="submit" class="form-control" name="send message" value="Сохранить">
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="col-md-5 col-md-offset-1  col-sm-12">
+                <div class="contact-image contact-image-profile">
+                    <img src="/images/avatar.jpg" class="img-responsive" alt="Аватар">
                 </div>
             </div>
-        </div>
 
-        <div class="col-12">
-            <div class="item">
-                <div class="lessons-link">
-                    <a href="/lessons/course/{{_id}}" data-id="{{_id}}" class="section-btn btn btn-default courses-btn form-control" id="lessons-btn">Смотреть все уроки</a>
-                </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <form id="course-form" role="form" action="" method="post">
+                    <div class="section-title">
+                        <h2 class="profile-title-detail">Создать курс</h2>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12">
+                        <input type="text" class="form-control"  placeholder="Название" name="title" required="">
+                        <input type="text" class="form-control" placeholder="Стоимость в USD" name="price">
+                        <input type="text" class="form-control" placeholder="Количество часов" name="duration" required="">
+                        <textarea class="form-control" rows="6" placeholder="Краткое описание" name="description" required=""></textarea>
+                        <input type="text" class="form-control visually-hidden" name="authorId" value="">
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                        <input type="submit" class="form-control" name="send message" value="Создать">
+                    </div>
+
+                </form>
             </div>
-        </div>
 
+            <div class="col-md-5 col-md-offset-1 col-sm-12">
+                <h2>Ваши курсы</h2>
+            </div>
+
+        </div>
     </div>
-</div>
+</section>
 
 {{> footer }}
-
-
-
 
 <!-- SCRIPTS -->
 <script src="/js/axios.min.js"></script>

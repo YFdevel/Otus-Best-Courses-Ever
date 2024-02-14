@@ -14,5 +14,5 @@ export const REFRESH_COOKIE_SETTINGS = {
     },
 };
 
-export const ACCESS_TOKEN_EXPIRATION = 30 * 1000;
+export const ACCESS_TOKEN_EXPIRATION = 1800 * 1000;
 export const REFRESH_TOKEN_EXPIRATION = 7 * 24 * 3600 * 1000;

@@ -39,6 +39,9 @@ usersRouter.post('/login', async (req, res, next) => {
             const{accessToken, refreshToken}=answer;
             res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_SETTINGS);
             res.cookie('accessToken', accessToken, ACCESS_COOKIE_SETTINGS);
+            res.cookie('auth', true, {
+                maxAge: ACCESS_TOKEN_EXPIRATION
+            });
             res.json({
                 accessToken,
                 refreshToken,
@@ -57,6 +60,7 @@ usersRouter.get("/logout", async(req, res,next) => {
         await logout(req.cookies.refreshToken);
         res.clearCookie("refreshToken");
         res.clearCookie("accessToken");
+        res.clearCookie("auth");
         return res.redirect("/");
     } catch (err) {
         next(err);
@@ -84,12 +88,17 @@ usersRouter.get("/", checkAuth, async (req, res) => {
     res.status(200).send(answer);
 });
 
-usersRouter.get("/:id", auth, async (req, res) => {
+usersRouter.get("/profile", async (req, res) => {
+    // const answer = await findById(id, usersCollection);
+    res.render("profile",{});
+});
+
+usersRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findById(id, usersCollection);
-    console.log(answer)
     res.status(200).send(answer);
 });
+
 
 usersRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id, req.body, usersCollection);

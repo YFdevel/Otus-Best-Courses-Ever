@@ -23,7 +23,7 @@ coursesRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findById(id,coursesCollection);
     //res.status(200).send(answer);
-    res.status(200).render("course-detail",answer);
+    res.render("course-detail",answer);
 });
 
 coursesRouter.get("/author/:id", async (req, res) => {

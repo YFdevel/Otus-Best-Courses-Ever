@@ -74,8 +74,7 @@ app.use("/reviews", reviewsRouter);
 app.get('/', async (req, res) =>{
     const courses=await coursesCollection.find().toArray();
     res.render('index',{
-        list:courses,
-        // access:req.cookies.accessToken
+        list:courses
     });
 });
 app.use((err, req, res, next) => {

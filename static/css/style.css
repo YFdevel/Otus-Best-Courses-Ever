@@ -610,12 +610,12 @@ section {
     background: #3f51b5;
 }
 
-#courses-page-wrapper{
+#courses-page-wrapper {
     min-height: auto;
-    padding-top:  120px;
+    padding-top: 120px;
 }
 
-.course-detail-wrapper{
+.course-detail-wrapper {
     margin-bottom: 100px;
 }
 
@@ -706,11 +706,14 @@ section {
     CONTACT
 -----------------------------------------*/
 
-#contact {
+#contact,
+#profile {
     background: #3f51b5;
 }
 
-#contact h2 {
+#contact h2,
+#profile h1,
+#profile h2 {
     color: #ffffff;
 }
 
@@ -720,41 +723,59 @@ section {
 
 #contact h2 > small,
 #contact p,
-#contact a {
+#contact a,
+#profile hr {
     color: #f9f9f9;
 }
 
-#contact-form {
+#contact-form,
+#profile-form,
+#course-form {
     padding: 1em 0;
 }
 
 #contact-form .col-md-12,
-#contact-form .col-md-4 {
+#contact-form .col-md-4,
+#profile-form .col-md-12,
+#profile-form .col-md-4,
+#course-form .col-md-12,
+#course-form .col-md-4 {
     padding-left: 0;
 }
 
-#contact-form .form-control {
+#contact-form .form-control,
+#profile-form .form-control,
+#course-form .form-control {
     border: 0;
     border-radius: 5px;
     box-shadow: none;
     margin: 10px 0;
 }
 
-#contact-form input {
+#contact-form input,
+#profile-form input,
+#course-form input {
     height: 50px;
 }
 
-#contact-form input[type='submit'] {
+#contact-form input[type='submit'],
+#profile-form input[type='submit'],
+#course-form input[type='submit'] {
     border-radius: 50px;
     border: 1px solid transparent;
 }
 
-#contact-form input[type='submit']:hover {
+#contact-form input[type='submit']:hover,
+#profile-form input[type='submit']:hover,
+#course-form input[type='submit']:hover {
     background: transparent;
     border-color: #ffffff;
     color: #ffffff;
 }
 
+.contact-image-profile img {
+    border-radius: 20px;
+}
 
 /*---------------------------------------
    FOOTER
@@ -1231,22 +1252,36 @@ footer .social-icon {
     }
 }
 
-#loom-companion-mv3{
+#loom-companion-mv3 {
     display: none;
 }
 
-#lessons-page-wrapper{
+#lessons-page-wrapper {
     flex-grow: 1;
 }
 
-.lessons-empty{
+.lessons-empty {
     min-height: 50vh;
     padding-top: 40px;
     margin-bottom: auto;
     font-size: 20px;
 }
 
-.log-out-btn{
-    visibility: hidden;
+#log-out-btn,
+#user-profile-btn {
+    display: none;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
 }
 
