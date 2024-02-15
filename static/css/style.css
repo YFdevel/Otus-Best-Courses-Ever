@@ -723,14 +723,30 @@ section {
 
 #contact h2 > small,
 #contact p,
+#profile p,
 #contact a,
-#profile hr {
+#profile hr,
+#profile label {
     color: #f9f9f9;
+}
+
+#profile a {
+    display: inline-block;
+    color: #f9f9f9;
+    font-size: 18px;
+    padding: 0 1em;
+    border-left: 1px solid #f9f9f9;
+    margin-bottom: 20px;
+}
+
+#profile a:hover {
+    color:#29ca8e;
 }
 
 #contact-form,
 #profile-form,
-#course-form {
+#course-form,
+#lesson-form {
     padding: 1em 0;
 }
 
@@ -739,13 +755,15 @@ section {
 #profile-form .col-md-12,
 #profile-form .col-md-4,
 #course-form .col-md-12,
-#course-form .col-md-4 {
+#course-form .col-md-4,
+#lesson-form .col-md-12 {
     padding-left: 0;
 }
 
 #contact-form .form-control,
 #profile-form .form-control,
-#course-form .form-control {
+#course-form .form-control,
+#lesson-form .form-control {
     border: 0;
     border-radius: 5px;
     box-shadow: none;
@@ -754,27 +772,60 @@ section {
 
 #contact-form input,
 #profile-form input,
-#course-form input {
+#course-form input,
+#lesson-form input {
     height: 50px;
 }
 
 #contact-form input[type='submit'],
 #profile-form input[type='submit'],
-#course-form input[type='submit'] {
+#course-form input[type='submit'],
+#lesson-form input[type='submit'] {
     border-radius: 50px;
+    border: 1px solid transparent;
+}
+
+#profile-form button {
+    border-radius: 10px;
     border: 1px solid transparent;
 }
 
 #contact-form input[type='submit']:hover,
 #profile-form input[type='submit']:hover,
-#course-form input[type='submit']:hover {
+#course-form input[type='submit']:hover,
+#lesson-form input[type='submit']:hover,
+#profile-form button:hover {
     background: transparent;
-    border-color: #ffffff;
+    border: 1px solid #ffffff;
     color: #ffffff;
 }
 
 .contact-image-profile img {
     border-radius: 20px;
+}
+
+#profile-form .input-data{
+    padding-right: 30px;
+    position: relative;
+    display: none;
+}
+
+#profile-form .close-input{
+    display: block;
+    position: absolute;
+    background-color: inherit;
+    top: 40%;
+    transform: translateY(-50%);
+    right: 0;
+    font-size: 300%;
+    height: 100%;
+    width: 20px;
+    color: #ff0000;
+}
+
+#profile-form .close-input:hover{
+    transition: 0.8s;
+    opacity: 0.6;
 }
 
 /*---------------------------------------
@@ -1285,3 +1336,25 @@ footer .social-icon {
     overflow: hidden;
 }
 
+.label-avatar-download{
+    position: relative;
+}
+
+.input-avatar-download{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+}
+
+.input-avatar-download:hover{
+    cursor: pointer;
+}
+
+.label-avatar-download:hover{
+    border-radius: 20px;
+    box-shadow: 0 0 4px #f9f9f9;
+}

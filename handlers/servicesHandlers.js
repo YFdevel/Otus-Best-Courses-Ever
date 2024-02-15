@@ -1,4 +1,5 @@
 import {ObjectId} from "mongodb";
+import bcrypt from "bcryptjs";
 
 export const getAll = async (collection) => {
     return await collection.find().toArray();
@@ -21,6 +22,9 @@ export const findByCourseId = async (id,collection) => {
 
 export const updateOne = async (id,data,collection) => {
     const example=await collection.findOne({_id: new ObjectId(id)});
+    if(data.password){
+        data.password= await bcrypt.hashSync(data.password, 7);
+    }
     await collection.findOneAndUpdate({_id: new ObjectId(id)}, { $set: {...example,...data}});
     return await findById(id,collection);
 };

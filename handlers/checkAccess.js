@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import {usersCollection} from "../index.js";
 import {findById} from "../handlers/servicesHandlers.js";
 import {refresh} from "../services/users.service.js";
-import {ACCESS_COOKIE_SETTINGS, REFRESH_COOKIE_SETTINGS,ACCESS_TOKEN_EXPIRATION} from "../constants/cookies.js";
+import {ACCESS_COOKIE_SETTINGS, REFRESH_COOKIE_SETTINGS, ACCESS_TOKEN_EXPIRATION} from "../constants/cookies.js";
+import bcrypt from "bcryptjs";
 
 
 export async function checkAuth(req, res, next) {
@@ -10,7 +11,7 @@ export async function checkAuth(req, res, next) {
         // res.status(401).json({message: "Unauthorized"});
         res.cookie('noAuth', true, {
             maxAge: 30 * 1000
-        } );
+        });
         res.redirect("/");
     } else {
         try {
@@ -28,14 +29,16 @@ export async function checkAuth(req, res, next) {
                             res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_SETTINGS);
                             res.cookie('accessToken', accessToken, ACCESS_COOKIE_SETTINGS);
                             res.cookie('auth', true, {
-                                maxAge: ACCESS_TOKEN_EXPIRATION
+                                maxAge: 24 * 3600 * 1000
                             });
                         }
+                        next();
+                    }else{
+                        req.user=result;
+                        next();
                     }
-                    next();
-                });
-
-
+                }
+            );
         } catch (TokenExpiredError) {
             res.status(401).json({message: "Unauthorized"});
         }
@@ -53,4 +56,8 @@ export const checkRole = (role) => async (req, res, next) => {
 
     return next();
 
+};
+
+export const isValidPassword = function(user, password) {
+    return bcrypt.compareSync(password, user.password);
 };

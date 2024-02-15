@@ -1,7 +1,6 @@
 import express from "express";
 import {create, getCommentsGroupByLesson} from "../services/lessons.service.js";
 import {lessonsCollection, commentsCollection} from "../index.js";
-import {strategy, auth} from "../config/strategy.js";
 import {
     getAll,
     findById,
@@ -16,18 +15,24 @@ import {checkAuth} from "../handlers/checkAccess.js";
 const lessonsRouter = express.Router();
 
 lessonsRouter.post("/", async (req, res) => {
-    const answer = await create(req.body);
-    if (typeof answer === "string") {
-        res.status(400).json({message: answer});
-
-    } else {
-        res.status(201).json(answer);
-    }
+    const answer = await create(req.body, req.files);
+    //
+    // if (typeof answer === "string") {
+    //     res.status(400).json({message: answer});
+    //
+    // } else {
+    //     res.status(201).json(answer);
+    // }
+    res.sendStatus(201)
 });
 
 lessonsRouter.get("/", async (req, res) => {
     const answer = await getAll(lessonsCollection);
     res.status(200).send(answer);
+});
+
+lessonsRouter.get("/create/:id", async (req, res) => {
+    res.status(200).render("lesson-create");
 });
 
 lessonsRouter.get("/:id", async (req, res) => {

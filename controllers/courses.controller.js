@@ -1,7 +1,9 @@
 import express from "express";
 import {create} from "../services/courses.service.js";
-import {coursesCollection} from "../index.js";
+import {coursesCollection,usersCollection} from "../index.js";
 import {getAll,findById,updateOne,deleteOne, findByAuthorId} from "../handlers/servicesHandlers.js";
+import {checkAuth} from "../handlers/checkAccess.js";
+import {ObjectId} from "bson";
 const coursesRouter = express.Router();
 
 coursesRouter.post("/", async (req, res) => {
@@ -19,11 +21,15 @@ coursesRouter.get("/", async (req, res) => {
     res.status(200).render("courses-page",{list:answer});
 });
 
-coursesRouter.get("/:id", async (req, res) => {
+coursesRouter.get("/:id", checkAuth, async (req, res) => {
     const {id} = req.params;
-    const answer = await findById(id,coursesCollection);
+    const user = await findById(req.user?.id, usersCollection);
+    const course = await findById(id,coursesCollection);
+    const author=user._id.toString() === course.authorId;
     //res.status(200).send(answer);
-    res.render("course-detail",answer);
+    res.render("course-detail",{
+        user,course,author
+    });
 });
 
 coursesRouter.get("/author/:id", async (req, res) => {

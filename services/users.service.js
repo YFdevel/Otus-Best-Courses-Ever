@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
 import {ROLES} from "../constants/roles.js";
 import {usersCollection,refreshSessionsCollection} from "../index.js";
-import {isValidPassword} from "../config/strategy.js";
+import {isValidPassword} from "../handlers/checkAccess.js";
 import jwt from "jsonwebtoken";
 import {ACCESS_TOKEN_EXPIRATION, REFRESH_TOKEN_EXPIRATION} from "../constants/cookies.js";
-import {ObjectId} from "mongodb";
+import {FileService} from "../handlers/fileService.js"
+import {updateOne} from "../handlers/servicesHandlers.js";
 
 
 export const create = async (body) => {
@@ -83,5 +84,12 @@ export const refresh = async (refreshToken,fingerprint) => {
     }
      return null;
 };
+
+export const avatarDownload = async (id,files) => {
+    const fileName = await FileService.saveImageFile(files.avatar);
+    await updateOne(id,{avatar:fileName.toString()}, usersCollection);
+    return fileName;
+};
+
 
 

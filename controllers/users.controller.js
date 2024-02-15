@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import {create} from "../services/users.service.js";
-import {usersCollection, refreshSessionsCollection} from "../index.js";
-import {getAll, findById, updateOne, deleteOne} from "../handlers/servicesHandlers.js";
+import {usersCollection, refreshSessionsCollection,coursesCollection} from "../index.js";
+import {getAll, findById, updateOne, deleteOne,findByAuthorId} from "../handlers/servicesHandlers.js";
 import {isValidPassword,} from "../config/strategy.js";
 // import jwt from "jwt-simple";
 import jwt from "jsonwebtoken";
@@ -15,8 +15,7 @@ import {
 } from "../constants/cookies.js";
 import {checkAuth, checkRole} from "../handlers/checkAccess.js";
 import {ROLES} from "../constants/roles.js";
-import {login,logout,refresh} from "../services/users.service.js";
-
+import {login,logout,refresh,avatarDownload} from "../services/users.service.js";
 
 dotenv.config();
 const usersRouter = express.Router();
@@ -40,7 +39,7 @@ usersRouter.post('/login', async (req, res, next) => {
             res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_SETTINGS);
             res.cookie('accessToken', accessToken, ACCESS_COOKIE_SETTINGS);
             res.cookie('auth', true, {
-                maxAge: ACCESS_TOKEN_EXPIRATION
+                maxAge: 24 * 3600 * 1000
             });
             res.json({
                 accessToken,
@@ -88,9 +87,13 @@ usersRouter.get("/", checkAuth, async (req, res) => {
     res.status(200).send(answer);
 });
 
-usersRouter.get("/profile", async (req, res) => {
-    // const answer = await findById(id, usersCollection);
-    res.render("profile",{});
+usersRouter.get("/profile", checkAuth, async (req, res) => {
+    const currentUser = await findById(req.user?.id, usersCollection);
+    const currentUserCourses=await findByAuthorId(req.user?.id, coursesCollection);
+    res.render("profile",{
+        user:currentUser,
+        courses: currentUserCourses
+    });
 });
 
 usersRouter.get("/:id", async (req, res) => {
@@ -102,6 +105,11 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id, req.body, usersCollection);
+    res.status(200).send(answer);
+});
+
+usersRouter.patch("/avatar/:id", async (req, res) => {
+    const answer = await avatarDownload(req.params.id,req.files);
     res.status(200).send(answer);
 });
 
