@@ -62,17 +62,17 @@
                         <input type="text" class="form-control" placeholder="Название" name="title" required="">
                         <textarea class="form-control" rows="6" placeholder="Краткое описание" name="description"
                                   required=""></textarea>
-                        <input type="text" class="form-control visually-hidden" name="authorId" value="">
-                        <input type="text" class="form-control visually-hidden" name="courseId" value="">
+                        <input type="text" class="form-control visually-hidden" name="authorId" value="{{authorId}}">
+                        <input type="text" class="form-control visually-hidden" name="courseId" value="{{courseId}}">
                         <label for="video">
                             Добавить видео
                         </label>
-                        <input type="file" name="video" id="video" class="form-control" required=""/>
+                        <input type="file" name="video" id="video" class="form-control" accept=".mp4, .avi, .mkv, .mov" required=""/>
 
                         <label for="text">
                             Добавить текстовый файл
                         </label>
-                        <input type="file" name="text" id="text" class="form-control" required=""/>
+                        <input type="file" name="text" id="text" class="form-control" accept=".doc, .docx, .txt, .pdf, .rtf"/>
                     </div>
 
                     <div class="col-md-4 col-sm-12">
@@ -99,5 +99,6 @@
 <script src="/js/custom.js"></script>
 <script src="/js/script.js"></script>
 <script src="/js/check-cookie.js"></script>
+<script src="/js/lesson-create.js"></script>
 </body>
 </html>

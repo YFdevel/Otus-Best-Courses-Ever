@@ -25,7 +25,7 @@ coursesRouter.get("/:id", checkAuth, async (req, res) => {
     const {id} = req.params;
     const user = await findById(req.user?.id, usersCollection);
     const course = await findById(id,coursesCollection);
-    const author=user._id.toString() === course.authorId;
+    const author=req.user?.id === course.authorId;
     //res.status(200).send(answer);
     res.render("course-detail",{
         user,course,author

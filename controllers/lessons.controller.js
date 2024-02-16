@@ -16,14 +16,13 @@ const lessonsRouter = express.Router();
 
 lessonsRouter.post("/", async (req, res) => {
     const answer = await create(req.body, req.files);
-    //
-    // if (typeof answer === "string") {
-    //     res.status(400).json({message: answer});
-    //
-    // } else {
-    //     res.status(201).json(answer);
-    // }
-    res.sendStatus(201)
+
+    if (typeof answer === "string") {
+        res.status(400).json({message: answer});
+
+    } else {
+        res.status(201).json(answer);
+    }
 });
 
 lessonsRouter.get("/", async (req, res) => {
@@ -31,8 +30,11 @@ lessonsRouter.get("/", async (req, res) => {
     res.status(200).send(answer);
 });
 
-lessonsRouter.get("/create/:id", async (req, res) => {
-    res.status(200).render("lesson-create");
+lessonsRouter.get("/create/:courseId", checkAuth, async (req, res) => {
+    res.status(200).render("lesson-create",{
+        authorId:req.user?.id,
+        courseId: req.params.courseId
+    });
 });
 
 lessonsRouter.get("/:id", async (req, res) => {
@@ -52,6 +54,7 @@ lessonsRouter.get("/course/:id", checkAuth, async (req, res) => {
     const initialLessons = await findByCourseId(id, lessonsCollection);
     const comments = await getCommentsGroupByLesson(id);
     const lessons = getLinkOfCollections(initialLessons, comments);
+    console.log(lessons)
     res.status(200).render("lessons-page", {courseId:id,lessons});
 });
 

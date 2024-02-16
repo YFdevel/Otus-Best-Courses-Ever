@@ -1358,3 +1358,13 @@ footer .social-icon {
     border-radius: 20px;
     box-shadow: 0 0 4px #f9f9f9;
 }
+
+.slider-article-video{
+    width: 100%;
+    height: 100px;
+}
+
+#main-video-lesson{
+    width: 100%;
+    height: 400px;
+}
