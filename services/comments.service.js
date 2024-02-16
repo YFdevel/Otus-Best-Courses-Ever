@@ -3,15 +3,15 @@ import {findById} from "../handlers/servicesHandlers.js";
 import {ObjectId} from "mongodb";
 
 
-export const create = async (body) => {
-    const {title, message, authorId, lessonId, courseId} = body;
+export const create = async (body, authorId) => {
+    const {title, message, lessonId, courseId} = body;
     const author=await findById(authorId,usersCollection);
     const newComment=await commentsCollection.insertOne({
         title,
         message,
         authorId,
-        authorFirstName:author.firstName,
-        authorLastName:author.lastName,
+        authorFirstName:author?.firstName,
+        authorLastName:author?.lastName,
         lessonId,
         courseId,
         startedAt: new Date()

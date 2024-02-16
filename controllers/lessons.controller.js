@@ -54,8 +54,11 @@ lessonsRouter.get("/course/:id", checkAuth, async (req, res) => {
     const initialLessons = await findByCourseId(id, lessonsCollection);
     const comments = await getCommentsGroupByLesson(id);
     const lessons = getLinkOfCollections(initialLessons, comments);
-    console.log(lessons)
-    res.status(200).render("lessons-page", {courseId:id,lessons});
+    res.status(200).render("lessons-page", {
+        courseId:id,
+        lessons,
+        authorId:req.user?.id
+    });
 });
 
 lessonsRouter.patch("/", async (req, res) => {

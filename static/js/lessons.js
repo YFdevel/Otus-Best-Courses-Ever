@@ -4,14 +4,14 @@ const mainId = document.getElementById('main-id');
 const mainVideoLesson = document.getElementById('main-video-lesson');
 const commentsContainerMain = document.getElementById('comments-container-main');
 const showCommentsBtn = document.getElementById('show-comments-btn');
+const commentsForm= document.getElementById('comments-form');
 
 mainTitle.innerText = document.getElementsByClassName('slider-article-title')[0].innerText;
 mainDesc.innerText = document.getElementsByClassName('slider-article-desc')[0].innerText;
 mainId.innerText = document.getElementsByClassName('slider-article-id')[0].innerText;
 mainVideoLesson.innerHTML = document.getElementsByClassName('slider-article-video')[0].innerHTML;
 commentsContainerMain.innerHTML = document.getElementsByClassName('comments-container')[0].innerHTML;
-console.log(document.getElementsByClassName('slider-article-video')[0].innerHTML);
-console.log(document.getElementsByClassName(mainVideoLesson.innerHTML));
+
 async function makeLessonMain(element) {
     mainTitle.innerText = element.getElementsByClassName('slider-article-title')[0].innerText;
     mainDesc.innerText = element.getElementsByClassName('slider-article-desc')[0].innerText;
@@ -46,7 +46,6 @@ const getComments = async(id) => {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-        console.log(res.data)
     }catch (err) {
         if (err.response) {
             console.log(err.message);
@@ -57,5 +56,6 @@ const getComments = async(id) => {
         }
     }
 };
+
 
 

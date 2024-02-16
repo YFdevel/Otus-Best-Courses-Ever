@@ -2,11 +2,12 @@ import express from "express";
 import {create} from "../services/comments.service.js";
 import {commentsCollection} from "../index.js";
 import {getAll,findById,updateOne,deleteOne, findByAuthorId,findByLessonId} from "../handlers/servicesHandlers.js";
+import {checkAuth} from "../handlers/checkAccess.js";
 const commentsRouter = express.Router();
 
-commentsRouter.post("/", async (req, res) => {
-    const answer = await create(req.body);
-        res.status(201).json(answer);
+commentsRouter.post("/", checkAuth, async (req, res, next) => {
+    const answer = await create(req.body, req.user?.id);
+        res.redirect(`../lessons/course/${req.body.courseId}`);
 });
 
 commentsRouter.get("/", async (req, res) => {

@@ -109,7 +109,9 @@
                             </div>
                             <form class="comments-form" action="/comments" method="post" enctype="multipart/form-data">
                                 <h5 class="comments-form-title">Добавить комментарий</h5>
-                                <input name="courseId" type="text" value="{{courseId}}" class="hidden">
+                                <input name="courseId" type="text" value="{{courseId}}" class="visually-hidden">
+                                <input name="authorId" type="text" value="{{authorId}}" class="visually-hidden">
+                                <input name="lessonId" type="text" value="{{_id}}" class="visually-hidden">
                                 <input type="text" name="title" placeholder="Краткий заголовок">
                                 <textarea class="comments-textarea" name="message" id="message"
                                           placeholder="Текст комментария"></textarea>
