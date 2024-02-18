@@ -38,14 +38,22 @@ coursesRouter.get("/author/:id", async (req, res) => {
     res.status(200).send(answer);
 });
 
-coursesRouter.patch("/", async (req, res) => {
+coursesRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id,req.body,coursesCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 coursesRouter.delete("/:id", async (req, res) => {
     const answer = await deleteOne(req.params.id,coursesCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 export default coursesRouter;

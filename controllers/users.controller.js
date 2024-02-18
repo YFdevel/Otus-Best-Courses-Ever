@@ -3,10 +3,6 @@ import dotenv from "dotenv";
 import {create} from "../services/users.service.js";
 import {usersCollection, refreshSessionsCollection,coursesCollection} from "../index.js";
 import {getAll, findById, updateOne, deleteOne,findByAuthorId} from "../handlers/servicesHandlers.js";
-import {isValidPassword,} from "../config/strategy.js";
-// import jwt from "jwt-simple";
-import jwt from "jsonwebtoken";
-import {auth} from "../config/strategy.js";
 import {
     ACCESS_TOKEN_EXPIRATION,
     REFRESH_TOKEN_EXPIRATION,
@@ -16,6 +12,7 @@ import {
 import {checkAuth, checkRole} from "../handlers/checkAccess.js";
 import {ROLES} from "../constants/roles.js";
 import {login,logout,refresh,avatarDownload} from "../services/users.service.js";
+
 
 dotenv.config();
 const usersRouter = express.Router();
@@ -82,7 +79,7 @@ usersRouter.post("/refresh", async (req, res, next) => {
     }
 });
 
-usersRouter.get("/", checkAuth, async (req, res) => {
+usersRouter.get("/", async (req, res) => {
     const answer = await getAll(usersCollection);
     res.status(200).send(answer);
 });
@@ -99,24 +96,41 @@ usersRouter.get("/profile", checkAuth, async (req, res) => {
 usersRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findById(id, usersCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
+
 });
 
 
 usersRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id, req.body, usersCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 usersRouter.patch("/avatar/:id", async (req, res) => {
     const answer = await avatarDownload(req.params.id,req.files);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(400);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 
 usersRouter.delete("/:id", checkAuth, checkRole(ROLES.ADMIN), async (req, res) => {
     const answer = await deleteOne(req.params.id, usersCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 export default usersRouter;

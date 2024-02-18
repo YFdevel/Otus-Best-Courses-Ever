@@ -40,7 +40,11 @@ lessonsRouter.get("/create/:courseId", checkAuth, async (req, res) => {
 lessonsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findById(id, lessonsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 lessonsRouter.get("/author/:id", async (req, res) => {
@@ -61,14 +65,22 @@ lessonsRouter.get("/course/:id", checkAuth, async (req, res) => {
     });
 });
 
-lessonsRouter.patch("/", async (req, res) => {
+lessonsRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id, req.body, lessonsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 lessonsRouter.delete("/:id", async (req, res) => {
     const answer = await deleteOne(req.params.id, lessonsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 export default lessonsRouter;

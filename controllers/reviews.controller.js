@@ -17,29 +17,49 @@ reviewsRouter.get("/", async (req, res) => {
 reviewsRouter.get("/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findById(id,reviewsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 reviewsRouter.get("/author/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findByAuthorId(id,reviewsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 reviewsRouter.get("/course/:id", async (req, res) => {
     const {id} = req.params;
     const answer = await findByCourseId(id,reviewsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
-reviewsRouter.patch("/", async (req, res) => {
+reviewsRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id,req.body,reviewsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 reviewsRouter.delete("/:id", async (req, res) => {
     const answer = await deleteOne(req.params.id,reviewsCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 export default reviewsRouter;

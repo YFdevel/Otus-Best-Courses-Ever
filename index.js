@@ -10,6 +10,8 @@ import fileUpload from "express-fileupload";
 import { getGlobals } from "common-es";
 import cookieParser from "cookie-parser";
 import Fingerprint from "express-fingerprint";
+import swaggerUi from "swagger-ui-express";
+import {swaggerDocument}  from "./swagger/openapi.js";
 import coursesRouter from "./controllers/courses.controller.js";
 import lessonsRouter from "./controllers/lessons.controller.js";
 import usersRouter from "./controllers/users.controller.js";
@@ -45,7 +47,7 @@ export const commentsCollection = db.collection("comments");
 export const reviewsCollection = db.collection("reviews");
 export const refreshSessionsCollection = db.collection("refresh_sessions");
 
-
+app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/courses", coursesRouter);
 app.use("/users", usersRouter);
 app.use("/lessons", lessonsRouter);
@@ -69,8 +71,10 @@ const start = async () => {
         try {
             await mongoClient.connect();
             server.listen(process.env.SERVER_PORT, () => { console.log(`Server is listening on ${process.env.SERVER_PORT}`) });
-        } catch
+        }
+        catch
             (err) {
+            if(BSONError)
             console.log("Возникла ошибка в работе приложения: ",err?.message);
             console.log(err.stack);
         }
