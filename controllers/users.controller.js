@@ -38,7 +38,7 @@ usersRouter.post('/login', async (req, res, next) => {
             res.cookie('auth', true, {
                 maxAge: 24 * 3600 * 1000
             });
-            res.json({
+            res.status(201).json({
                 accessToken,
                 refreshToken,
                 accessTokenExpiration: ACCESS_TOKEN_EXPIRATION

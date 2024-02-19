@@ -7,7 +7,7 @@ export const create = async (body,files) => {
     const videoFileName = await FileService.saveVideoFile(files.video);
     const textFileName = files.text?await FileService.saveTextFile(files.text):"";
     const {title, description, authorId, courseId} = body;
-    const lesson = await lessonsCollection.findOne({title});
+    const lesson = await lessonsCollection.findOne({title,courseId});
     if (lesson) {
         return "Урок с таким названием уже зарегистрирован";
     }

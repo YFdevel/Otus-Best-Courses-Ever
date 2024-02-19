@@ -70,11 +70,12 @@ export const server = https.createServer({key: key, cert: cert }, app);
 const start = async () => {
         try {
             await mongoClient.connect();
-            server.listen(process.env.SERVER_PORT, () => { console.log(`Server is listening on ${process.env.SERVER_PORT}`) });
+            server.listen(process.env.SERVER_PORT
+                // () => { console.log(`Server is listening on ${process.env.SERVER_PORT}`) }
+            );
         }
         catch
             (err) {
-            if(BSONError)
             console.log("Возникла ошибка в работе приложения: ",err?.message);
             console.log(err.stack);
         }
