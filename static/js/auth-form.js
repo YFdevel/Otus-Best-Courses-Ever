@@ -8,12 +8,17 @@ formElemUp.onsubmit = async (e) => {
         {
             method: "post",
             url: '/users',
+            withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             data:
                 Object.fromEntries(formData.entries())
+        })
+        .then(()=>{
+            formElemUp.reset();
+            location.reload();
         })
         .catch(function (error) {
             console.log(error.message);
@@ -26,13 +31,18 @@ formElemIn.onsubmit = async (e) => {
     axios(
         {
             method: "post",
-            url: '/users/#',
+            url: '/users/login',
+            withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             data:
                 Object.fromEntries(formData.entries())
+        })
+        .then(()=>{
+            formElemIn.reset();
+            location.reload();
         })
         .catch(function (error) {
             console.log(error.message);

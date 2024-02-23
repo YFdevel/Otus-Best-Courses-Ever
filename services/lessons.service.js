@@ -1,10 +1,13 @@
 import {coursesCollection, usersCollection, lessonsCollection,commentsCollection} from "../index.js";
 import {ObjectId} from "mongodb";
+import {FileService} from "../handlers/fileService.js"
 
 
-export const create = async (body) => {
+export const create = async (body,files) => {
+    const videoFileName = await FileService.saveVideoFile(files.video);
+    const textFileName = files.text?await FileService.saveTextFile(files.text):"";
     const {title, description, authorId, courseId} = body;
-    const lesson = await lessonsCollection.findOne({title});
+    const lesson = await lessonsCollection.findOne({title,courseId});
     if (lesson) {
         return "Урок с таким названием уже зарегистрирован";
     }
@@ -13,8 +16,8 @@ export const create = async (body) => {
         description,
         authorId,
         courseId,
-        videoUrl: "",
-        pdfUrl: "",
+        videoUrl: videoFileName.toString(),
+        pdfUrl: textFileName.toString(),
         startedAt: new Date(),
         updatedAt: new Date(),
         comments: []

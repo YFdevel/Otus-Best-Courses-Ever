@@ -42,34 +42,36 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-phone"></i> +77777777</a></li>
+                <li class="user-profile-btn" id="user-profile-btn"><a href="/users/profile"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                <li class="log-out-btn" id="log-out-btn"><a href="/users/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
             </ul>
         </div>
     </div>
 </section>
 
-<div class="container">
+<div class="container course-detail-wrapper">
 
-    <h1 class="courses-title-detail">{{title}}</h1>
-    <p class="courses-desc-detail">{{description}}</p>
+    <h1 class="courses-title-detail">{{course.title}}</h1>
+    <p class="courses-desc-detail">{{course.description}}</p>
     <div class="courses-info-detail">
         <div class="courses-author">
             <img src="/images/avatar.jpg" class="img-responsive" alt="">
-            <span>{{authorFirstName}} {{authorLastName}}</span>
+            <span>{{course.authorFirstName}} {{course.authorLastName}}</span>
         </div>
-        {{#price}}
+        {{#course.price}}
             <div class="courses-price">
-                <a href="/courses/{{_id}}"><span>USD {{price}}</span></a>
+               <span>USD {{course.price}}</span>
             </div>
-        {{/price}}
-        {{^price}}
+        {{/course.price}}
+        {{^course.price}}
             <div class="courses-price free">
-                <a href="/courses/{{_id}}"><span>Free</span></a>
+                <a href="/courses/{{course._id}}"><span>Free</span></a>
             </div>
-        {{/price}}
+        {{/course.price}}
     </div>
     <div class="courses-date-detail">
         <span><i class="fa fa-calendar"></i> 12 / 7 / 2018</span>
-        <span><i class="fa fa-clock-o"></i> {{duration}} Hours</span>
+        <span><i class="fa fa-clock-o"></i> {{course.duration}} Hours</span>
     </div>
 
     <div class="courses-page-detail-wrapper">
@@ -84,25 +86,40 @@
         <div class="col-12">
             <div class="item">
                 <div class="lessons-link">
-                    <a href="/lessons/course/{{_id}}" class="section-btn btn btn-default courses-btn form-control" id="lessons-btn">Смотреть все уроки</a>
+                    <a href="/lessons/course/{{course._id}}" data-id="{{course._id}}" class="section-btn btn btn-default courses-btn form-control" id="lessons-btn">Смотреть все уроки</a>
                 </div>
             </div>
         </div>
 
+        {{#author}}
+            <div class="col-12">
+                <div class="item">
+                    <div class="lessons-link">
+                        <a href="/lessons/create/{{course._id}}" data-id="{{course._id}}" class="section-btn btn btn-default courses-btn form-control" id="create-lesson-btn">Создать новый урок</a>
+                    </div>
+                </div>
+            </div>
+        {{/author}}
+        {{^author}}
+            <div></div>
+        {{/author}}
+
     </div>
 </div>
 
+{{> footer }}
 
 
 
 
 <!-- SCRIPTS -->
-<script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/smoothscroll.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/script.js"></script>
-
+<script src="/js/axios.min.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/smoothscroll.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/check-cookie.js"></script>
 </body>
 </html>

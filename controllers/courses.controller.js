@@ -1,7 +1,9 @@
 import express from "express";
 import {create} from "../services/courses.service.js";
-import {coursesCollection} from "../index.js";
+import {coursesCollection,usersCollection} from "../index.js";
 import {getAll,findById,updateOne,deleteOne, findByAuthorId} from "../handlers/servicesHandlers.js";
+import {checkAuth} from "../handlers/checkAccess.js";
+import {ObjectId} from "bson";
 const coursesRouter = express.Router();
 
 coursesRouter.post("/", async (req, res) => {
@@ -19,11 +21,15 @@ coursesRouter.get("/", async (req, res) => {
     res.status(200).render("courses-page",{list:answer});
 });
 
-coursesRouter.get("/:id", async (req, res) => {
+coursesRouter.get("/:id", checkAuth, async (req, res) => {
     const {id} = req.params;
-    const answer = await findById(id,coursesCollection);
+    const user = await findById(req.user?.id, usersCollection);
+    const course = await findById(id,coursesCollection);
+    const author=req.user?.id === course.authorId;
     //res.status(200).send(answer);
-    res.status(200).render("course-detail",answer);
+    res.render("course-detail",{
+        user,course,author
+    });
 });
 
 coursesRouter.get("/author/:id", async (req, res) => {
@@ -32,14 +38,22 @@ coursesRouter.get("/author/:id", async (req, res) => {
     res.status(200).send(answer);
 });
 
-coursesRouter.patch("/", async (req, res) => {
+coursesRouter.patch("/:id", async (req, res) => {
     const answer = await updateOne(req.params.id,req.body,coursesCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(201).send(answer);
+    }
 });
 
 coursesRouter.delete("/:id", async (req, res) => {
     const answer = await deleteOne(req.params.id,coursesCollection);
-    res.status(200).send(answer);
+    if(!answer){
+        res.sendStatus(404);
+    }else{
+        res.status(200).send(answer);
+    }
 });
 
 export default coursesRouter;
